@@ -1,12 +1,12 @@
 import numpy as np
 import os,re from bs4
-import BeautifulSoup as BS from requests
-import get from pymorphy2
-import MorphAnalyzer as MA from nltk.tokenize
-import PunktSentenceTokenizer as PST from nltk.tokenize
-import WordPunctTokenizer as WPT
-import SOM from Visualisation
-import makeAdotsOrig
+import BeautifulSoup as BS 
+from requests import get from pymorphy2
+import MorphAnalyzer as MA 
+from nltk.tokenize import PunktSentenceTokenizer as PST 
+from nltk.tokenize import WordPunctTokenizer as WPT
+import SOM 
+from Visualisation import makeAdotsOrig
 
 Geo = []
 ma = MA()
