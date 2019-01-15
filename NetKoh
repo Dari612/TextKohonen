@@ -4,7 +4,7 @@ import numpy as np
 import tensorflow as tf
 import matplotlib.pyplot as plt
 import numpy as np
-from Visualisation import makeAdots
+from ImageKarta import makeAdots
 
 class SOMNetwork():
 	def __init__(self, input_dim, dim=10, sigma=None, learning_rate=0.1, tay2=1000, dtype=tf.float32):
@@ -87,3 +87,4 @@ def test_som_with_color_data(test):
         geofile.close()
         makeAdots(img2)
     writer.close()
+
