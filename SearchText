@@ -43,24 +43,27 @@ def processingText(DirOn, poem, poemDir, Geo ):
         my_file.write(text)
         my_file.close()
 
-text_=st.sentences_from_text(text)
-for sent in text_:
-    for word in wt.tokenize(sent):
-        for morph in ma.parse(word):
-            if "Geox" in morph.tag and morph.score>=0.3:
-                if morph.normal_form not in Geo:
-                    #Geo += [[morph.normal_form, morph.score]]
-                    Geo+=[morph.normal_form]
-#print(Geo)
-#print(len(Geo))
+    text_=st.sentences_from_text(text)
+    for sent in text_:
+        for word in wt.tokenize(sent):
+            for morph in ma.parse(word):
+                # VIKA: geox на Name изменила, сейчас парсит имена
+       	        if "Name" in morph.tag and morph.score>=0.3:
+       	            if morph.normal_form not in Geo:
+                        #Geo += [[morph.normal_form, morph.score]]
+                        Geo+=[morph.normal_form]
+#    print(Geo)
+ #   print(len(Geo))
 
 def filenotfound():
     home = 'texts/'
     link = "http://lib.ru/INPROZ/"
     soup = BS(get(link).content)
     b = soup.find('li')
+    bool1 = True
     #testik = True
-    while 1:
+    # VIKA:  вставила фор, потому что долго ждать, пока пропарсит всех авторов, сейчас парсит первых 10
+    for nn2 in range(10):
         try:
             b2 = b.find('a')
         except AttributeError:
@@ -101,17 +104,17 @@ def filenotfound():
                 bool2 = False
             except OSError:
                 bool2 = False
-
         b = b.nextSibling
 try: #беру гео слова из файла
-    geofile = open('geox.txt', 'r', encoding='utf-8')
+# VIKA: geogx.txt заменила на name.txt, чтобы не спутаться, ниже тоже
+    geofile = open('name.txt', 'r', encoding='utf-8')
     Geo = [line.strip() for line in geofile]
-    #print(Geo)
+    print(Geo)
 except FileNotFoundError: # файла нет - провожу обработку и записываю слова в файл
     print('file not found')
     filenotfound()
     Geo.sort()
-    geofile = open('geox.txt', "w", encoding='utf-8')
+    geofile = open('name.txt', "w", encoding='utf-8')
     for i in Geo:
         geofile.write(i+'\n')
     geofile.close()
@@ -126,7 +129,7 @@ try: #считываю координаты из файла
     temp = []
     k=0
     for line in geocoord:
-        #print(float(line))
+        print(float(line))
         if k==2:
             coord+=[temp]
             k=0
@@ -138,7 +141,7 @@ except FileNotFoundError:#координат нет - гуглю и записы
     wiki='https://ru.wikipedia.org/wiki/'
     geocoord_Real = open('coordReal.txt', "w", encoding='utf-8')
     for i in Geo:
-        #print(i)
+        print(i)
         wikiGeo = ''
         wikiGeo = wiki + i
         try: # пытаемся вытянуть координату из вики
@@ -168,4 +171,4 @@ except FileNotFoundError:#координат нет - гуглю и записы
 coord = realonlycoord()
 """
 makeAdotsOrig(coord)
-SOM.test_som_with_color_data(coord)
+NetKoh.test_som_with_color_data(coord)
